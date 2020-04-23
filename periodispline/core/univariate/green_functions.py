@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from typing import Optional, Union, Tuple
-from special.functions import Matern, MissingWendland
+from periodispline.special.functions import Matern, MissingWendland
 
 plt.style.use('source/custom_style.mplstyle')
 
@@ -314,8 +314,8 @@ class GreenIteratedWendland(GreenFunction):
 if __name__ == '__main__':
     # green_function = GreenExponential(alpha=2, exponent=2, nogibbs=True)
     # green_function = GreenWendland(scale=2,mu_alpha=(2, 1 / 2))
-    #green_function = GreenIteratedMatern(scale=1, nu=3 / 2, exponent=4)
-    green_function = GreenIteratedWendland(scale=1.5,mu_alpha=(2, 1 / 2),exponent=2)
+    # green_function = GreenIteratedMatern(scale=1, nu=3 / 2, exponent=4)
+    green_function = GreenIteratedWendland(scale=1.5, mu_alpha=(2, 1 / 2), exponent=2)
     plt.figure()
     green_function.plot()
     plt.figure()
