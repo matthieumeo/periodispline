@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from typing import Optional, Union, Tuple
-from math.functions import Matern, MissingWendland
+from special.functions import Matern, MissingWendland
 
 plt.style.use('source/custom_style.mplstyle')
 
