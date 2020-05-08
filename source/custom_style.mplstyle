@@ -64,6 +64,7 @@ figure.facecolor: white
 figure.edgecolor: 0.50
 figure.titlesize: x-large
 figure.dpi: 192
+#figure.figsize: 7, 3  # (21/9)
 figure.figsize: 6.4, 3.96  # (golden ratio 1.618)
 
 # subplot

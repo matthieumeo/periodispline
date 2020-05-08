@@ -32,8 +32,8 @@ class Matern:
 
 class MissingWendland:
     def __init__(self, mu_alpha: Tuple[int, float], scale: float, period: float = 2 * np.pi, zero=1e-12):
-        if mu_alpha not in [(2, 1 / 2), (3, 3 / 2), (4, 5 / 2), (5, 7 / 2)]:
-            raise ValueError('The tuple mu_alpha must be one of [(2,1/2), (3,3/2), (4,5/2), (5,7/2)].')
+        if mu_alpha not in [(2, 1 / 2), (3, 3 / 2), (4, 5 / 2)]:
+            raise ValueError('The tuple mu_alpha must be one of [(2,1/2), (3,3/2), (4,5/2)].')
         else:
             self.mu_alpha = mu_alpha
         self.scale = scale
@@ -50,11 +50,11 @@ class MissingWendland:
     def L(self, r: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
         return np.log(r / (1 + self.S(r)))
 
-    def P(self, r: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
-        return 3465 * (r ** 12) + 83160 * (r ** 10) + 13860 * (r ** 8)
-
-    def Q(self, r: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
-        return 37495 * (r ** 10) + 160290 * (r ** 8) + 33488 * (r ** 6) - 724 * (r ** 4) + 1344 * (r ** 2) - 128
+    # def P(self, r: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
+    #     return 3465 * (r ** 12) + 83160 * (r ** 10) + 13860 * (r ** 8)
+    #
+    # def Q(self, r: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
+    #     return 37495 * (r ** 10) + 160290 * (r ** 8) + 33488 * (r ** 6) - 724 * (r ** 4) + 1344 * (r ** 2) - 128
 
     def missing_wendland_function(self, r: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
         if self.mu_alpha == (2, 1 / 2):
@@ -64,8 +64,8 @@ class MissingWendland:
         elif self.mu_alpha == (4, 5 / 2):
             return (945 * r ** 8 + 2520 * r ** 6) * self.L(r) + (
                     256 * r ** 8 + 2639 * r ** 6 + 690 * r ** 4 - 136 * r ** 2 + 16) * self.S(r)
-        elif self.mu_alpha == (5, 7 / 2):
-            return -self.P(r) * self.L(r) - self.Q(r) * self.S(r)
+        # elif self.mu_alpha == (5, 7 / 2):
+        #     return -self.P(r) * self.L(r) - self.Q(r) * self.S(r)
 
     def __call__(self, t: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
         t = np.asarray(t)
