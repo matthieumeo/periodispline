@@ -74,8 +74,8 @@ class GreenFunction:
         return self.interpolated_green_function(x)
 
     def plot(self, nb_of_periods: int = 3, resolution: int = 1000, color: Union[int, str] = None,
-             linewidth: int = 2):
-        x = np.linspace(-nb_of_periods * self.period/2, nb_of_periods * self.period/2, resolution)
+             linewidth: Union[int, float] = 2):
+        x = np.linspace(-nb_of_periods * self.period / 2, nb_of_periods * self.period / 2, resolution)
         y = np.real(self.__call__(x))
         y /= np.max(y)
         if color is None:
@@ -129,13 +129,13 @@ class GreenSobolev(GreenFunction):
                  nogibbs: Optional[bool] = None, nogibbs_method: str = 'fejer'):
         self.alpha = alpha
         self.exponent = exponent
-        order = 2 * self.exponent
+        order = self.exponent
         super(GreenSobolev, self).__init__(order=order, period=period, rtol=rtol, cutoff=cutoff,
                                            nogibbs=nogibbs, nogibbs_method=nogibbs_method)
 
     def _compute_fs_coefficients(self):
         frequencies = (2 * np.pi * np.arange(-self.cutoff, self.cutoff + 1) / self.period)
-        op_coeffs = (self.alpha + frequencies ** 2) ** self.exponent
+        op_coeffs = (self.alpha ** 2 + frequencies ** 2) ** (self.exponent / 2)
         fs_coeffs = np.zeros(shape=frequencies.shape, dtype=np.complex128)
         fs_coeffs[op_coeffs != 0] = 1 / op_coeffs[op_coeffs != 0]
         return fs_coeffs
@@ -185,17 +185,17 @@ class GreenMatern(GreenFunction):
                  rtol: float = 1e-3,
                  cutoff: Optional[int] = None):
         if nu is None:
-            if order not in [2, 4, 6, 8]:
-                raise ValueError('Parameter order must be an integer among [2, 4, 6, 8].')
+            if order not in [1, 2, 3, 4]:
+                raise ValueError('Parameter order must be an integer among [1, 2, 3, 4].')
             else:
                 self.order = order
-                self.nu = (self.order - 1) / 2
+                self.nu = self.order - 1 / 2
         else:
             if nu not in [1 / 2, 3 / 2, 5 / 2, 7 / 2]:
                 raise ValueError('Parameter nu must be a half integer among [1/2,3/2,5/2,7/2].')
             else:
                 self.nu = nu
-            self.order = 1 + 2 * self.nu
+            self.order = self.nu + 1 / 2
         self.scale = scale
         self.period = period
         self.interpolated_green_function = self.green_function()
@@ -217,17 +217,17 @@ class GreenIteratedMatern(GreenFunction):
     def __init__(self, scale: float, nu: Optional[float] = None, exponent: int = None, order: Optional[int] = None,
                  period: float = 2 * np.pi, rtol: float = 1e-3, cutoff: Optional[int] = None):
         if nu is None:
-            if order not in [2, 4, 6, 8]:
-                raise ValueError('Parameter order must be an integer among [2, 4, 6, 8].')
+            if order not in [1, 2, 3, 4]:
+                raise ValueError('Parameter order must be an integer among [1, 2, 3, 4].')
             else:
                 self.order = exponent * order
-                self.nu = (order - 1) / 2
+                self.nu = order - 1 / 2
         else:
             if nu not in [1 / 2, 3 / 2, 5 / 2, 7 / 2]:
                 raise ValueError('Parameter nu must be a half integer among [1/2,3/2,5/2,7/2].')
             else:
                 self.nu = nu
-            self.order = exponent * (1 + 2 * self.nu)
+            self.order = exponent * (self.nu + 1 / 2)
         self.exponent = exponent
         self.scale = scale
         self.period = period
@@ -249,18 +249,18 @@ class GreenWendland(GreenFunction):
     def __init__(self, scale: float, mu_alpha: Optional[Tuple[int, float]] = None, order: Optional[float] = None,
                  period: float = 2 * np.pi, rtol: float = 1e-3, cutoff: Optional[int] = None):
         if mu_alpha is None:
-            if order not in [3, 5, 7]:
-                raise ValueError('Parameter order must be an integer among [3, 5, 7].')
+            if order not in [3 / 2, 5 / 2, 7 / 2]:
+                raise ValueError('Parameter order must be an integer among [3/2, 5/2, 7/2].')
             else:
                 self.order = order
-                self.alpha = (self.order / 2) - 1
+                self.alpha = self.order - 1
                 self.mu = self.mu_dic[self.alpha]
         else:
             if mu_alpha not in [(2, 1 / 2), (3, 3 / 2), (4, 5 / 2)]:
                 raise ValueError('The tuple mu_alpha must be one of [(2,1/2), (3,3/2), (4,5/2)].')
             else:
                 self.mu, self.alpha = mu_alpha[0], mu_alpha[1]
-                self.order = 2 * (self.alpha + 1)
+                self.order = self.alpha + 1
         self.scale = scale
         self.period = period
         self.interpolated_green_function = self.green_function()
@@ -289,14 +289,14 @@ class GreenIteratedWendland(GreenFunction):
                 raise ValueError('Parameter order must be an integer among [3, 5, 7].')
             else:
                 self.order = exponent * order
-                self.alpha = (order / 2) - 1
+                self.alpha = order - 1
                 self.mu = self.mu_dic[self.alpha]
         else:
             if mu_alpha not in [(2, 1 / 2), (3, 3 / 2), (4, 5 / 2)]:
                 raise ValueError('The tuple mu_alpha must be one of [(2,1/2), (3,3/2), (4,5/2)].')
             else:
                 self.mu, self.alpha = mu_alpha[0], mu_alpha[1]
-                self.order = 2 * (self.alpha + 1) * exponent
+                self.order = (self.alpha + 1) * exponent
         self.exponent = exponent
         self.scale = scale
         self.period = period

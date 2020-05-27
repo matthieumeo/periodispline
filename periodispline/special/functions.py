@@ -21,7 +21,7 @@ class Matern:
         elif self.nu == (3 / 2):
             return (1 + np.sqrt(3) * r) * np.exp(-np.sqrt(3) * r)
         elif self.nu == (5 / 2):
-            return (1 + np.sqrt(5) * r + np.sqrt(5) * (r ** 2) / 3) * np.exp(-np.sqrt(5) * r)
+            return (1 + np.sqrt(5) * r + 5 * (r ** 2) / 3) * np.exp(-np.sqrt(5) * r)
         elif self.nu == (7 / 2):
             return (1 + np.sqrt(7) * r + 42 * (r ** 2) / 15
                     + 7 * np.sqrt(7) * (r ** 3) / 15) * np.exp(-np.sqrt(7) * r)
