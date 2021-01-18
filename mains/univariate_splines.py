@@ -42,7 +42,7 @@ plt.savefig('exports/fractional_derivative.pdf', bbox_inches='tight', transparen
 
 # Fractional Laplacian
 fig = plt.figure(figsize=(8, 2.5))
-exponent = [1, 1.2, 1.4, 1.8, 2, 2.5, 3, 3.5, 4, 5]
+exponent = [1.1, 1.2, 1.4, 1.8, 2, 2.5, 3, 3.5, 4, 5]
 weights = np.array([1, -1])
 knots = np.array([0, period / 2])
 legend = []
@@ -87,7 +87,7 @@ plt.savefig('exports/exponential_gamma.pdf', bbox_inches='tight', transparent=Fa
 
 # Sobolev Operators:
 fig = plt.figure()
-exponent = np.array([1, 1.2, 1.4, 1.8, 2, 2.5, 3, 3.5, 4, 5])
+exponent = np.array([1.1, 1.2, 1.4, 1.8, 2, 2.5, 3, 3.5, 4, 5])
 alpha = [1, 3]
 legend = []
 subplot1 = plt.subplot(2, 1, 1)
@@ -143,7 +143,7 @@ for i, order in enumerate(orders):
     plt.subplot(subplot2)
     green_function = green.GreenMatern(scale=scale[-1], order=order, period=period)
     green_function.plot(nb_of_periods=number_of_periods, resolution=resolution, color=i, linewidth=1.5)
-    legend.append(f'$\\gamma={green_function.order}$')
+    legend.append(f'$\\gamma={2*green_function.order}$')
 
 fig.legend(legend, loc='center right')
 #plt.suptitle(f'Matern: $\\epsilon={scale[0]}$ (top), $\\epsilon={scale[-1]}$ (bottom)')
@@ -163,7 +163,7 @@ for i, order in enumerate(orders):
     plt.subplot(subplot2)
     green_function = green.GreenWendland(scale=scale[-1], order=order, period=period)
     green_function.plot(nb_of_periods=number_of_periods, resolution=resolution, color=i, linewidth=1.5)
-    legend.append(f'$\\gamma={green_function.order}$')
+    legend.append(f'$\\gamma={2*green_function.order}$')
 
 fig.legend(legend, loc='center right')
 #plt.suptitle(f'Wendland: $\\epsilon={scale[0]}$ (top), $\\epsilon={scale[-1]}$ (bottom)')
