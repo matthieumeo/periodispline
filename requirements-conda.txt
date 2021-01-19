@@ -1,4 +1,6 @@
-python == 3.6.*
+python >= 3.6.*
 numpy >= 1.10
 scipy >= 1.5.*
 matplotlib >= 3.3.*
+psutil >= 5.8.*
+requests >= 2.25.*

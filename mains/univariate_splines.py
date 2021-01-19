@@ -6,6 +6,8 @@ from matplotlib.colors import to_hex
 import periodispline.splines.green.univariate as green
 from periodispline.splines.ndsplines import UnivariateSpline
 
+plt.style.use('source/custom_style.mplstyle')
+
 # Set colors in plots
 cmap = get_cmap('tab10')
 mpl.rcParams['axes.prop_cycle'] = mpl.cycler(color=[to_hex(c) for c in cmap.colors])

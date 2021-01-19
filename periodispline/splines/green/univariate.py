@@ -5,7 +5,7 @@ from scipy.interpolate import interp1d
 from typing import Optional, Union, Tuple
 from periodispline.special.functions import Matern, MissingWendland
 
-plt.style.use('source/custom_style.mplstyle')
+#plt.style.use('source/custom_style.mplstyle')
 
 
 class GreenFunction:
@@ -64,7 +64,7 @@ class GreenFunction:
         sampled_green_function = pyffs.iffs(x_FS=fs_coefficients, T=self.period, T_c=self.period / 2,
                                             N_FS=self.bandwidth)
         space_samples = pyffs.ffs_sample(T=self.period, N_FS=self.bandwidth, T_c=self.period / 2,
-                                         N_s=sampled_green_function.size)
+                                         N_s=sampled_green_function.size)[0]
         interpolated_green_function = interp1d(space_samples, sampled_green_function, kind='cubic',
                                                fill_value='extrapolate')
         return interpolated_green_function
@@ -207,7 +207,7 @@ class GreenMatern(GreenFunction):
 
     def _compute_fs_coefficients(self):
         space_samples = pyffs.ffs_sample(T=self.period, N_FS=self.bandwidth, T_c=self.period / 2,
-                                         N_s=self.bandwidth)
+                                         N_s=self.bandwidth)[0]
         sampled_green_function = self.interpolated_green_function(space_samples)
         fs_coeffs = pyffs.ffs(x=sampled_green_function, T=self.period, T_c=self.period / 2, N_FS=self.bandwidth)
         return fs_coeffs
@@ -237,7 +237,7 @@ class GreenIteratedMatern(GreenFunction):
 
     def _compute_fs_coefficients(self):
         space_samples = pyffs.ffs_sample(T=self.period, N_FS=self.bandwidth, T_c=self.period / 2,
-                                         N_s=self.bandwidth)
+                                         N_s=self.bandwidth)[0]
         sampled_green_function = self.base_green_function(space_samples)
         fs_coeffs = pyffs.ffs(x=sampled_green_function, T=self.period, T_c=self.period / 2, N_FS=self.bandwidth)
         return fs_coeffs ** self.exponent
@@ -250,7 +250,7 @@ class GreenWendland(GreenFunction):
                  period: float = 2 * np.pi, rtol: float = 1e-3, cutoff: Optional[int] = None):
         if mu_alpha is None:
             if order not in [3 / 2, 5 / 2, 7 / 2]:
-                raise ValueError('Parameter order must be an integer among [3/2, 5/2, 7/2].')
+                raise ValueError('Parameter order must be one of [3/2, 5/2, 7/2].')
             else:
                 self.order = order
                 self.alpha = self.order - 1
@@ -272,7 +272,7 @@ class GreenWendland(GreenFunction):
 
     def _compute_fs_coefficients(self):
         space_samples = pyffs.ffs_sample(T=self.period, N_FS=self.bandwidth, T_c=self.period / 2,
-                                         N_s=self.bandwidth)
+                                         N_s=self.bandwidth)[0]
         sampled_green_function = self.interpolated_green_function(space_samples)
         fs_coeffs = pyffs.ffs(x=sampled_green_function, T=self.period, T_c=self.period / 2, N_FS=self.bandwidth)
         return fs_coeffs
@@ -306,7 +306,7 @@ class GreenIteratedWendland(GreenFunction):
 
     def _compute_fs_coefficients(self):
         space_samples = pyffs.ffs_sample(T=self.period, N_FS=self.bandwidth, T_c=self.period / 2,
-                                         N_s=self.bandwidth)
+                                         N_s=self.bandwidth)[0]
         sampled_green_function = self.base_green_function(space_samples)
         fs_coeffs = pyffs.ffs(x=sampled_green_function, T=self.period, T_c=self.period / 2, N_FS=self.bandwidth)
         return fs_coeffs ** self.exponent

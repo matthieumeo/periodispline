@@ -7,7 +7,7 @@ from scipy.interpolate import RegularGridInterpolator
 from typing import Optional, Union, Iterable, Callable
 import periodispline.splines.green.univariate as perspline1d
 
-plt.style.use('source/custom_style.mplstyle')
+#plt.style.use('source/custom_style.mplstyle')
 
 
 class GreenFunctionND:
@@ -82,7 +82,7 @@ class GreenFunctionND:
                                                                  N_FS=self.bandwidths[axis], axis=axis), axes=axis)
             axis_space_samples = np.fft.ifftshift(pyffs.ffs_sample(T=self.periods[axis], N_FS=self.bandwidths[axis],
                                                                    T_c=self.periods[axis] / 2,
-                                                                   N_s=sampled_green_function.shape[axis]))
+                                                                   N_s=sampled_green_function.shape[axis])[0])
             space_samples.append(axis_space_samples)
         self.space_samples_meshgrid = np.meshgrid(*space_samples)
         self.sampled_green_function = sampled_green_function

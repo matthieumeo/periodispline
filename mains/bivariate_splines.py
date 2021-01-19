@@ -2,6 +2,9 @@ import numpy as np
 import periodispline.splines.green.univariate as green
 import periodispline.splines.green.multivariate as greenND
 from periodispline.splines.ndsplines import MultivariateSpline
+import matplotlib.pyplot as plt
+
+plt.style.use('source/custom_style.mplstyle')
 
 # Setup
 period = 2 * np.pi
@@ -71,7 +74,7 @@ for nu in [1 / 2, 3 / 2, 5 / 2]:
         width=1920, height=1080, scale=2)
 
 # Wend-Wend
-for order in [3, 5, 7]:
+for order in [3/2, 5/2, 7/2]:
     green_function1 = green.GreenWendland(scale=2, order=order, period=period)
     green_function2 = green.GreenWendland(scale=2, order=order, period=period)
     green_functionnd = greenND.GreenSeparableND(green_function1, green_function2, ndim=2)
