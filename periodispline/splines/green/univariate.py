@@ -5,7 +5,7 @@ from scipy.interpolate import interp1d
 from typing import Optional, Union, Tuple
 from periodispline.special.functions import Matern, MissingWendland
 
-plt.style.use('source/custom_style.mplstyle')
+#plt.style.use('source/custom_style.mplstyle')
 
 
 class GreenFunction:
