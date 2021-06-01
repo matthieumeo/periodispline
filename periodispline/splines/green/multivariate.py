@@ -7,7 +7,7 @@ from scipy.interpolate import RegularGridInterpolator
 from typing import Optional, Union, Iterable, Callable
 import periodispline.splines.green.univariate as perspline1d
 
-plt.style.use('source/custom_style.mplstyle')
+#plt.style.use('source/custom_style.mplstyle')
 
 
 class GreenFunctionND:
