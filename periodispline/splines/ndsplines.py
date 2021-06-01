@@ -6,7 +6,7 @@ from periodispline.splines.green.multivariate import GreenFunctionND
 from typing import Union, Optional
 from plotly.subplots import make_subplots
 
-plt.style.use('source/custom_style.mplstyle')
+#plt.style.use('source/custom_style.mplstyle')
 
 
 class UnivariateSpline:
